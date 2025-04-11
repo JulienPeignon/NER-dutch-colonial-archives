@@ -10,8 +10,8 @@ def train_model(
     criterion,
     optimizer,
     device,
-    epochs=5,
-    save_path="best_model.pt",
+    epochs=50,
+    save_path="checkpoints/best_model.pt",
 ):
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
@@ -76,15 +76,19 @@ def train_model(
 
 
 def plot_train_val_loss(train_losses, val_losses, title="Training vs Validation Loss"):
-    plt.figure(figsize=(8, 5))
-    plt.plot(train_losses, marker="o", label="Train Loss")
-    plt.plot(val_losses, marker="s", label="Validation Loss")
+    plt.figure(figsize=(10, 5))
+    plt.plot(train_losses, label="Train Loss", linewidth=2)
+    plt.plot(val_losses, label="Validation Loss", linewidth=2)
     plt.title(title, fontsize=14)
     plt.xlabel("Epoch", fontsize=12)
     plt.ylabel("Loss", fontsize=12)
     plt.xticks(
-        ticks=range(len(train_losses)),
-        labels=[str(i + 1) for i in range(len(train_losses))],
+        ticks=range(0, len(train_losses), max(1, len(train_losses) // 20)),
+        labels=[
+            str(i + 1)
+            for i in range(0, len(train_losses), max(1, len(train_losses) // 20))
+        ],
+        rotation=45,
     )
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.legend()
