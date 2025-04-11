@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from collections import defaultdict
 
 
 def descriptive_statistics(sentences, labels):
@@ -15,15 +16,22 @@ def descriptive_statistics(sentences, labels):
         "max_length": int(np.max(sentence_lengths)),
     }
 
-    # IOB label statistics
+    # IOB label statistics + unique words
     label_stats = {}
+    label_word_sets = defaultdict(set)
     all_labels = set(lab for sent in labels for lab in sent)
+
+    for sent_tokens, sent_labels in zip(sentences, labels):
+        for token, label in zip(sent_tokens, sent_labels):
+            label_word_sets[label].add(token)
+
     for label in sorted(all_labels):
         counts = [s.count(label) for s in labels]
         label_stats[label] = {
             "min": int(np.min(counts)),
             "mean": float(np.mean(counts)),
             "max": int(np.max(counts)),
+            "n_unique_words": len(label_word_sets[label]),
         }
 
     # Display
@@ -32,5 +40,5 @@ def descriptive_statistics(sentences, labels):
 
     print("\nIOB Tag Statistics (per sentence):")
     df_labels = pd.DataFrame(label_stats).T
-    df_labels.columns = ["min", "mean", "max"]
+    df_labels.columns = ["min", "mean", "max", "n_unique_words"]
     print(df_labels)
