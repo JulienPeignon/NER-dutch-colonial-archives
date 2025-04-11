@@ -1,14 +1,12 @@
-# **Unsilencing Colonial Archives — Transformer Edition**  
-_Replicating and extending the ideas from “Unsilencing Colonial Archives via Automated Entity Recognition”  with a custom Transformer architecture._
+# **Unsilencing Colonial Archives — Transformer Edition** 🚀  
+_Replicating and extending the ideas from [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194) with a custom Transformer architecture._
 
-## Overview
-This repository showcases an experimental replication of the approach presented in [*Unsilencing Colonial Archives via Automated Entity Recognition*] , using a **self-programmed Transformer** to detect various entities (including named and unnamed persons) in historical VOC (Dutch East India Company) testament texts.
+## Overview 📜
+This repository showcases an experimental replication of the approach presented in [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194), using a **self-programmed Transformer** to detect various entities (including named and unnamed persons) in historical VOC (Dutch East India Company) testament texts.
 
-The original paper proposes a tailor-made annotation typology to tackle challenging archival data, spotlighting how automation can **broaden access** to marginalized voices often left out of conventional archival indexes. Here, instead of relying on off-the-shelf models, we’re **rolling our own** Transformer.
+The original paper proposes a tailor-made annotation typology to tackle challenging archival data, spotlighting how automation can **broaden access** to marginalized voices often left out of conventional archival indexes. Here, instead of relying on off-the-shelf models, we’re **rolling our own** Transformer 🛠️.
 
-## Project Structure
-
-## Project Structure
+## Project Structure 🗂️
 
 ```plaintext
 ├── data/
@@ -27,7 +25,7 @@ The original paper proposes a tailor-made annotation typology to tackle challeng
 └── .pre-commit-config.yaml      # Pre-commit hook setup
 ```
 
-## Installation & Setup
+## Installation & Setup ⚙️
 
 ### Clone the Repository
 
@@ -42,8 +40,7 @@ cd unsilencing-colonial-archives-transformer
 pip install -r requirements.txt
 ```
 
-
-## Results
+## Results 📊
 
 | Model                    | Precision (Fuzzy) | Recall (Fuzzy) | F1 Score (Fuzzy) |
 |--------------------------|------------------:|---------------:|-----------------:|
@@ -52,19 +49,19 @@ pip install -r requirements.txt
 
 ---
 
-## Contributing
+## Contributing 🙌
 
 Feel free to submit an issue or PR to improve the codebase.
 
 ---
 
-## License
+## License 📝
 
 This project is licensed under the **MIT License**. Refer to the [LICENSE](LICENSE) file for details.
 
 ---
 
-## References & Acknowledgments
+## References
 
-- **Paper**: [“Unsilencing Colonial Archives via Automated Entity Recognition”]
-- **Dataset & Annotations**: Provided by the authors in their shared tasks.  
+- **Paper**: [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194)
+- **Dataset & Annotations**: Provided by the authors in their shared tasks.
