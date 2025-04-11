@@ -1,3 +1,8 @@
+import torch
+import os
+import matplotlib.pyplot as plt
+
+
 def train_model(
     model,
     train_loader,
@@ -6,17 +11,19 @@ def train_model(
     optimizer,
     device,
     epochs=5,
-    log_steps=50,
+    save_path="best_model.pt",
 ):
-    import torch
+    os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
-    global_step = 0
+    best_val_loss = float("inf")
     train_history = []
     val_history = []
 
     for epoch in range(epochs):
         model.train()
-        for step, batch in enumerate(train_loader):
+        total_loss = 0.0
+
+        for batch in train_loader:
             input_ids = batch["input_ids"].to(device)
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
@@ -28,35 +35,58 @@ def train_model(
             optimizer.step()
             optimizer.zero_grad()
 
-            global_step += 1
+            total_loss += loss.item()
 
-            # Log training & validation every `log_steps`
-            if (global_step % log_steps) == 0:
-                # -- Compute validation loss --
-                model.eval()
-                val_loss = 0.0
-                with torch.no_grad():
-                    for val_batch in val_loader:
-                        val_input_ids = val_batch["input_ids"].to(device)
-                        val_attention_mask = val_batch["attention_mask"].to(device)
-                        val_labels = val_batch["labels"].to(device)
+        avg_train_loss = total_loss / len(train_loader)
 
-                        val_logits = model(val_input_ids, val_attention_mask)
-                        val_step_loss = criterion(
-                            val_logits.view(-1, val_logits.shape[-1]),
-                            val_labels.view(-1),
-                        )
-                        val_loss += val_step_loss.item()
-                val_loss /= len(val_loader)
+        # Validation
+        model.eval()
+        total_val_loss = 0.0
+        with torch.no_grad():
+            for val_batch in val_loader:
+                val_input_ids = val_batch["input_ids"].to(device)
+                val_attention_mask = val_batch["attention_mask"].to(device)
+                val_labels = val_batch["labels"].to(device)
 
-                # -- Store losses and print log --
-                train_history.append(loss.item())
-                val_history.append(val_loss)
-                print(
-                    f"Step {global_step} - "
-                    f"Train Loss: {loss.item():.4f} | "
-                    f"Val Loss: {val_loss:.4f}"
+                val_logits = model(val_input_ids, val_attention_mask)
+                val_loss = criterion(
+                    val_logits.view(-1, val_logits.shape[-1]),
+                    val_labels.view(-1),
                 )
-                model.train()
+                total_val_loss += val_loss.item()
+
+        avg_val_loss = total_val_loss / len(val_loader)
+
+        train_history.append(avg_train_loss)
+        val_history.append(avg_val_loss)
+
+        print(
+            f"Epoch {epoch+1}/{epochs} - "
+            f"Train Loss: {avg_train_loss:.4f} | "
+            f"Val Loss: {avg_val_loss:.4f}"
+        )
+
+        if avg_val_loss < best_val_loss:
+            best_val_loss = avg_val_loss
+            torch.save(model.state_dict(), save_path)
+
+        model.train()
 
     return train_history, val_history
+
+
+def plot_train_val_loss(train_losses, val_losses, title="Training vs Validation Loss"):
+    plt.figure(figsize=(8, 5))
+    plt.plot(train_losses, marker="o", label="Train Loss")
+    plt.plot(val_losses, marker="s", label="Validation Loss")
+    plt.title(title, fontsize=14)
+    plt.xlabel("Epoch", fontsize=12)
+    plt.ylabel("Loss", fontsize=12)
+    plt.xticks(
+        ticks=range(len(train_losses)),
+        labels=[str(i + 1) for i in range(len(train_losses))],
+    )
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
