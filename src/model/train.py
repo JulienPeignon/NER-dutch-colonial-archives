@@ -10,6 +10,9 @@ def train_model(
     optimizer,
     device,
     epochs=50,
+    scheduler=None,
+    clip_grad=True,
+    max_norm=1.0,
     save_path="checkpoints/best_model.pt",
 ):
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
@@ -28,9 +31,14 @@ def train_model(
             labels = batch["labels"].to(device)
 
             loss = model(input_ids, attention_mask, labels)
-
             loss.backward()
+
+            if clip_grad:
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm)
+
             optimizer.step()
+            if scheduler is not None:
+                scheduler.step()
             optimizer.zero_grad()
 
             total_loss += loss.item()
