@@ -3,3 +3,4 @@ pytorch-crf
 transformers
 datasets
 seqeval
+black
