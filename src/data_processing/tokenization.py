@@ -26,7 +26,7 @@ def create_tokenized_dataset(
             truncation=True,
             padding=False,
         )
-    
+
         all_labels = []
         for batch_index, word_ids in enumerate(
             tokenized_inputs.word_ids(batch_index=i)
@@ -45,11 +45,9 @@ def create_tokenized_dataset(
                     label_ids.append(label2id["O"])
                 previous_word_idx = word_idx
             all_labels.append(label_ids)
-    
+
         tokenized_inputs["labels"] = all_labels
         return tokenized_inputs
-
-
 
     tokenized_dataset = dataset.map(tokenize_and_align_labels, batched=True)
 
