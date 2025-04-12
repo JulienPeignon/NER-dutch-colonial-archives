@@ -13,15 +13,20 @@ def evaluate_ner_model(model, test_loader, label_map, device="cuda"):
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
 
-            logits = model(input_ids, attention_mask)
-            preds = torch.argmax(logits, dim=-1)
+            # CRF returns list of lists of predicted label indices
+            predictions = model(input_ids, attention_mask)
 
-            for i in range(input_ids.size(0)):
+            for i in range(len(predictions)):
+                pred = predictions[i]
                 true = labels[i].cpu().tolist()
-                pred = preds[i].cpu().tolist()
 
-                true_clean = [label_map[l] for l, p in zip(true, pred) if l != -100]
-                pred_clean = [label_map[p] for l, p in zip(true, pred) if l != -100]
+                # attention_mask = 0 for padding → remove those positions
+                true_clean = [
+                    label_map[true[j]] for j in range(len(pred)) if true[j] != -100
+                ]
+                pred_clean = [
+                    label_map[pred[j]] for j in range(len(pred)) if true[j] != -100
+                ]
 
                 all_labels.append(true_clean)
                 all_preds.append(pred_clean)

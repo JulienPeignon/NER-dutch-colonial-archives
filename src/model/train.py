@@ -7,7 +7,6 @@ def train_model(
     model,
     train_loader,
     val_loader,
-    criterion,
     optimizer,
     device,
     epochs=50,
@@ -28,8 +27,7 @@ def train_model(
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
 
-            logits = model(input_ids, attention_mask)
-            loss = criterion(logits.view(-1, logits.shape[-1]), labels.view(-1))
+            loss = model(input_ids, attention_mask, labels)
 
             loss.backward()
             optimizer.step()
@@ -48,11 +46,7 @@ def train_model(
                 val_attention_mask = val_batch["attention_mask"].to(device)
                 val_labels = val_batch["labels"].to(device)
 
-                val_logits = model(val_input_ids, val_attention_mask)
-                val_loss = criterion(
-                    val_logits.view(-1, val_logits.shape[-1]),
-                    val_labels.view(-1),
-                )
+                val_loss = model(val_input_ids, val_attention_mask, val_labels)
                 total_val_loss += val_loss.item()
 
         avg_val_loss = total_val_loss / len(val_loader)
