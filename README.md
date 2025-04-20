@@ -50,10 +50,9 @@ pip install -r requirements.txt
 
 | Model                          | Precision (Fuzzy) | Recall (Fuzzy) | F1 Score (Fuzzy) |
 |--------------------------------|------------------:|---------------:|-----------------:|
-| **CRF Baseline (Paper)**       | 0.73              | 0.56           | 0.63             |
+| **BERTje + BiLSTM-CRF (Paper)**| ~0.68–0.70        | ~0.58–0.59     | 0.63             |
 | **Transformer + CRF (Ours)**   | 0.398             | 0.232          | 0.293            |
 | **BERTje + CRF (Ours)**        | **0.674**         | **0.743**      | **0.707**        |
-| **BERTje + BiLSTM-CRF (Paper)**| ~0.68–0.70        | ~0.58–0.59     | 0.63             |
 
 ---
 
