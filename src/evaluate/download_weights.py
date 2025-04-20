@@ -1,7 +1,11 @@
 import os
 import requests
 
-def download_model_weights(filename: str, base_url: str = "https://minio.lab.sspcloud.fr/jpeignon/NLP_3A_ENSAE/"):
+
+def download_model_weights(
+    filename: str,
+    base_url: str = "https://minio.lab.sspcloud.fr/jpeignon/NLP_3A_ENSAE/",
+):
     url = base_url + filename
     os.makedirs("outputs/", exist_ok=True)
     dest_path = os.path.join("outputs/", filename)
