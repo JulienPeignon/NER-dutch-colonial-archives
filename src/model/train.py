@@ -2,6 +2,7 @@ import os
 import torch
 from pathlib import Path
 from typing import List, Tuple, Optional
+import matplotlib.pyplot as plt
 
 
 def train_model(
