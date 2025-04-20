@@ -2,9 +2,13 @@
 _Replicating and extending the ideas from [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194) with a custom Transformer architecture._
 
 ## Overview 📜
-This repository showcases an experimental replication of the approach presented in [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194), using a **self-programmed Transformer** to detect various entities (including named and unnamed persons) in historical VOC (Dutch East India Company) testament texts.
+This repository showcases an experimental replication and extension of the approach presented in [“Unsilencing Colonial Archives via Automated Entity Recognition”](https://arxiv.org/abs/2210.02194), applied to historical VOC (Dutch East India Company) testament texts.
 
-The original paper proposes a tailor-made annotation typology to tackle challenging archival data, spotlighting how automation can **broaden access** to marginalized voices often left out of conventional archival indexes. Here, instead of relying on off-the-shelf models, we’re **rolling our own** Transformer 🛠️.
+The original paper introduces a tailor-made annotation typology to surface both named and unnamed entities—especially marginalized individuals omitted from conventional archival indexes—and evaluates several NER models including a CRF baseline and BERTje + BiLSTM-CRF.
+
+In this project, we go further by implementing two custom architectures:
+- A **Transformer decoder with CRF head** 🧪
+- A **BERTje + CRF** model 🧠
 
 ## Project Structure 🗂️
 
@@ -16,13 +20,15 @@ The original paper proposes a tailor-made annotation typology to tackle challeng
 │   ├── data_processing/         # Tokenization, loading, and descriptive stats
 │   ├── model/                   # Transformer implementation and training logic
 │   └── configuration/           # Device setup and logging config
-├── checkpoints/                 # Saved model checkpoints
+├── outputs/
+│   └── *.pt                     # Trained model weights
 ├── main.ipynb                   # Main notebook for exploratory work
-│ 
+│
 ├── requirements.txt             # Python dependencies
 ├── README.md                    # Project description and setup instructions
 ├── LICENSE                      # License file (MIT)
 └── .pre-commit-config.yaml      # Pre-commit hook setup
+
 ```
 
 ## Installation & Setup ⚙️
@@ -42,10 +48,12 @@ pip install -r requirements.txt
 
 ## Results 📊
 
-| Model                    | Precision (Fuzzy) | Recall (Fuzzy) | F1 Score (Fuzzy) |
-|--------------------------|------------------:|---------------:|-----------------:|
-| **CRF Baseline (Paper)** | 0.73              | 0.56           | 0.63             |
-| **Transformer (Ours)**   | 0.XX              | 0.XX           | 0.XX             |
+| Model                          | Precision (Fuzzy) | Recall (Fuzzy) | F1 Score (Fuzzy) |
+|--------------------------------|------------------:|---------------:|-----------------:|
+| **CRF Baseline (Paper)**       | 0.73              | 0.56           | 0.63             |
+| **Transformer + CRF (Ours)**   | 0.398             | 0.232          | 0.293            |
+| **BERTje + CRF (Ours)**        | **0.674**         | **0.743**      | **0.707**        |
+| **BERTje + BiLSTM-CRF (Paper)**| ~0.68–0.70        | ~0.58–0.59     | 0.63             |
 
 ---
 
