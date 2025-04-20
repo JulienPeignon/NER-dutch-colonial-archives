@@ -79,8 +79,8 @@ def train_model(
         val_history.append(avg_val_loss)
 
         print(
-            f"Epoch {epoch + 1:03}/{epochs} | "
-            f"train: {avg_train_loss:.4f}  val: {avg_val_loss:.4f}"
+            f"Epoch {epoch + 1:02}/{epochs} | "
+            f"Train loss: {avg_train_loss:.4f}  Val Loss: {avg_val_loss:.4f}"
         )
 
         # --------------------------- model saving -------------------------- #
@@ -100,7 +100,6 @@ def train_model(
                 "optimizer_state": optimizer.state_dict(),
             }
             torch.save(checkpoint, save_path)
-            print(f" ↳  saved new best model to {Path(save_path).resolve()}")
 
         model.train()
 
