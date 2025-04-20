@@ -4,3 +4,4 @@ transformers
 datasets
 seqeval
 black
+accelerate>=0.26.0
