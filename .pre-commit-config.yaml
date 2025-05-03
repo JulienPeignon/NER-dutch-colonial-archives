@@ -1,27 +1,22 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
-
 repos:
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version.
-    rev: v0.7.1
+    rev: v0.11.6
     hooks:
-    # Run the linter.
     -   id: ruff
-        types_or: [ python]
-        args: [ --fix ]
-
-    # run sort imports
-    - id: ruff
-      args: ["check", "--select", "I", "--fix"]
-
-    # Run the formatter.
+        types_or: [python]
+        args: [--fix]
+    -   id: ruff
+        args: ["check", "--select", "I", "--fix"]
     -   id: ruff-format
-        types_or: [ python ]
--   repo: https://github.com/kynan/nbstripout
-    rev: 0.7.1
+        types_or: [python]
+
+-   repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.1
     hooks:
-    -   id: nbstripout
+    -   id: nbqa-ruff
+        args: [--fix, "--extend-ignore=E402,F821"]
+        files: \.ipynb$
+
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -29,3 +24,4 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+        args: ["--maxkb=10000"]
