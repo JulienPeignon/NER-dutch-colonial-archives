@@ -1,4 +1,4 @@
-# **Named Entity Recognition in Dutch Colonial Archives** 🇳🇱📜
+# **Named Entity Recognition in Dutch Colonial Archives** 🇳🇱
 _Replicating and extending the study "Unsilencing Colonial Archives via Automated Entity Recognition" with custom Transformer and BERTje-based models._
 
 ## Overview 📜
@@ -49,7 +49,7 @@ pip install -r requirements.txt
 
 ## Results 📊
 
-| Model                          | Precision (Fuzzy) | Recall (Fuzzy) | F1 Score (Fuzzy) |
+| Model                          | Precision  | Recall | F1 Score |
 |--------------------------------|------------------:|---------------:|-----------------:|
 | **BERTje + BiLSTM-CRF (Paper)**| ~0.68–0.70        | ~0.58–0.59     | 0.63             |
 | **Transformer + CRF (Ours)**   | 0.398             | 0.232          | 0.293            |
